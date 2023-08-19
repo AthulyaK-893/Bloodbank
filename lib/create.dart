@@ -76,6 +76,8 @@ class _CreateState extends State<Create> {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('uid', userids!);
+    print(prefs.getString('uid'));
+    
 
 
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;

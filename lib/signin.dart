@@ -25,6 +25,10 @@ class _SigninPageState extends State<SigninPage> {
     try {
       var halo = await auth.signInWithEmailAndPassword(
           email: email, password: password);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final userids = FirebaseAuth.instance.currentUser?.uid.toString();
+      await prefs.setString('uid', userids!);
+      print(prefs.getString('uid'));
       print(halo);
       setState(() {
         isLogin = true;
@@ -63,7 +67,9 @@ class _SigninPageState extends State<SigninPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 100,),
+                  padding: const EdgeInsets.only(
+                    top: 100,
+                  ),
                   child: Text(
                     "Welcome Back",
                     style: GoogleFonts.nunito(
@@ -72,7 +78,9 @@ class _SigninPageState extends State<SigninPage> {
                         color: Color.fromARGB(253, 214, 0, 50)),
                   ),
                 ),
-                SizedBox(height: 25,),
+                SizedBox(
+                  height: 25,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Column(
@@ -96,15 +104,14 @@ class _SigninPageState extends State<SigninPage> {
                               color: Color.fromARGB(253, 214, 0, 50)),
                           border: OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromARGB(253, 214, 0, 50))),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(253, 214, 0, 50))),
                         ),
                         keyboardType: TextInputType.emailAddress,
                       ),
                     ],
                   ),
                 ),
-               
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Column(
@@ -134,8 +141,8 @@ class _SigninPageState extends State<SigninPage> {
                               color: Color.fromARGB(253, 214, 0, 50)),
                           border: OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromARGB(253, 214, 0, 50))),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(253, 214, 0, 50))),
                         ),
                         keyboardType: TextInputType.visiblePassword,
                       ),
@@ -148,7 +155,7 @@ class _SigninPageState extends State<SigninPage> {
                       await loginUser(
                           email: email_controller.text,
                           password: password_controller.text);
-          
+
                       if (isLogin)
                         Navigator.of(context).pushReplacement(
                             MaterialPageRoute(builder: (context) {
@@ -159,7 +166,9 @@ class _SigninPageState extends State<SigninPage> {
                     }
                   },
                   child: Container(
-                      margin: EdgeInsets.only(top: 70,),
+                      margin: EdgeInsets.only(
+                        top: 70,
+                      ),
                       height: 65,
                       width: 330,
                       decoration: BoxDecoration(
