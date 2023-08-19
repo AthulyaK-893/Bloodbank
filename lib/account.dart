@@ -21,11 +21,20 @@ class Account extends StatefulWidget {
 class _AccountState extends State<Account> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   String? userid = "";
+
   void onload() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() async {
-      userid = await prefs.getString('uid');
+    setState(() {
+      userid = prefs.getString('uid');
     });
+    print(userid);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    onload();
   }
 
   @override
@@ -67,7 +76,7 @@ class _AccountState extends State<Account> {
                 ),
                 Text(
                   "Logout",
-                  style: GoogleFonts.poppins( 
+                  style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 214, 0, 50)),
@@ -77,15 +86,15 @@ class _AccountState extends State<Account> {
       ),
       body: FutureBuilder(
           future:
-              FirebaseFirestore.instance.collection("Doners").doc("RsCqRoYXzoaHjUjgGpg2HstfsLi2").get(),
+              FirebaseFirestore.instance.collection("Doners").doc(userid).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData && !snapshot.data!.exists) {
-              return const Text("Conection Error"); 
+              return const Text("Conection Error");
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Text("Loading..");
             }
-           // if (snapshot.connectionState == ConnectionState.done) {}
+            // if (snapshot.connectionState == ConnectionState.done) {}
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -316,6 +325,8 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> _logOut(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // This clears all shared preferences
     await _firebaseAuth.signOut().then((value) =>
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return LoginPage();
