@@ -18,6 +18,7 @@ class OTPverification extends StatefulWidget {
 }
 
 class _OTPverificationState extends State<OTPverification> {
+  bool isVerifying = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,55 @@ class _OTPverificationState extends State<OTPverification> {
             SizedBox(
               height: 55,
               width: 250,
-              child: ElevatedButton(
+              child:
+
+/*ElevatedButton(
+  onPressed: isVerifying
+      ? null 
+      : () async {
+          setState(() {
+            isVerifying = true; 
+          });
+
+          try {
+            PhoneAuthCredential credential =
+                PhoneAuthProvider.credential(
+                    verificationId: Create.verify, smsCode: code);
+
+            await auth.signInWithCredential(credential).then((value) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "details", (route) => false);
+            });
+
+            log(credential.toString());
+          } catch (e) {
+            print("Wrong OTP");
+          } finally {
+            setState(() {
+              isVerifying = false; 
+            });
+          }
+        },
+  child: isVerifying
+      ? CircularProgressIndicator( // Display a circular loading indicator
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        )
+      : Text(
+          "Verify phone number",
+          style: GoogleFonts.nunito(
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 17),
+        ),
+  style: ElevatedButton.styleFrom(
+    primary: isVerifying ? Colors.grey : Colors.green.shade600,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  ),
+)*/
+
+                  ElevatedButton(
                 onPressed: () async {
                   try {
                     PhoneAuthCredential credential =

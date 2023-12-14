@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:blood_dontaion_app/bloodgroup.dart';
 import 'package:blood_dontaion_app/details.dart';
-import 'package:blood_dontaion_app/googlesheets.dart';
 import 'package:blood_dontaion_app/otpverification.dart';
-import 'package:blood_dontaion_app/loginpage.dart';
+import 'package:blood_dontaion_app/view/googlesheet/googlesheets.dart';
+import 'package:blood_dontaion_app/view/welcome.screen.dart.dart';
 import 'package:blood_dontaion_app/documentlistview.dart';
 import 'package:blood_dontaion_app/sheetscolumn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +16,7 @@ import 'bloodgroup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Create extends StatefulWidget {
   const Create({
@@ -29,6 +30,7 @@ class Create extends StatefulWidget {
 }
 
 class _CreateState extends State<Create> {
+  String _selectedGender = '';
   String gender = "";
   String selectGenderValue = "";
   TextEditingController dateInputController = TextEditingController();
@@ -44,6 +46,7 @@ class _CreateState extends State<Create> {
   var argumentData = Get.arguments;
 
   FirebaseAuth auth = FirebaseAuth.instance;
+
   loginUser({email, password}) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
@@ -76,9 +79,11 @@ class _CreateState extends State<Create> {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('uid', userids!);
-
+    print(prefs.getString('uid'));
 
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+   auth.setSettings(appVerificationDisabledForTesting: true);
 
     String? userIds = firebaseAuth.currentUser?.uid;
     FirebaseFirestore.instance.collection("Doners").doc(userIds).set({
@@ -121,6 +126,11 @@ class _CreateState extends State<Create> {
   }
 
   final formKey = GlobalKey<FormState>();
+  void _handleRadioValueChange(value) {
+    setState(() {
+      _selectedGender = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +148,7 @@ class _CreateState extends State<Create> {
       appBar: AppBar(
         centerTitle: true,
         toolbarHeight: 143,
-        backgroundColor: Color.fromARGB(253, 214, 0, 50),
+        backgroundColor: const Color.fromARGB(253, 214, 0, 50),
         title: Text(
           "Create account",
           style: GoogleFonts.nunito(
@@ -172,7 +182,7 @@ class _CreateState extends State<Create> {
                   email: email_controller.text,
                   password: passwor_controller.text);
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return OTPverification();
+                return const OTPverification();
               }));
             } catch (e) {
               log(e.toString());
@@ -186,7 +196,7 @@ class _CreateState extends State<Create> {
           width: 327,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(253, 214, 0, 50)),
+              color: const Color.fromARGB(253, 214, 0, 50)),
           child: Padding(
             padding: const EdgeInsets.only(top: 15),
             child: Text(
@@ -215,12 +225,10 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-
-                // Text(argumentData['selectedValue']),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _controller1,
                   decoration: InputDecoration(
@@ -228,9 +236,9 @@ class _CreateState extends State<Create> {
                     labelStyle: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 156, 164, 171)),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                        color: const Color.fromARGB(255, 156, 164, 171)),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 129, 128, 127))),
                   ),
@@ -246,7 +254,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 258),
                   child: Text(
@@ -254,10 +262,10 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _controller2,
                   decoration: InputDecoration(
@@ -265,9 +273,9 @@ class _CreateState extends State<Create> {
                     labelStyle: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 156, 164, 171)),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                        color: const Color.fromARGB(255, 156, 164, 171)),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 129, 128, 127))),
                   ),
@@ -283,7 +291,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 237),
                   child: Text(
@@ -291,22 +299,22 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: "DD/MM/YYYY",
                     labelStyle: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 156, 164, 171)),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                        color: const Color.fromARGB(255, 156, 164, 171)),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 129, 128, 127))),
-                    suffixIcon: Icon(
+                    suffixIcon: const Icon(
                       Icons.calendar_month,
                       color: Color.fromARGB(255, 214, 0, 50),
                     ),
@@ -330,7 +338,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 275),
                   child: Text(
@@ -338,64 +346,79 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Container(
-                      height: 60,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                              style: BorderStyle.solid,
-                              color: Color.fromARGB(255, 129, 128, 127))),
-                      child: RadioListTile(
-                          title: Text(
-                            "Male",
-                            style: GoogleFonts.nunito(
-                                fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                          value: "Male",
-                          groupValue: selectGenderValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectGenderValue = value.toString();
-                              gender = selectGenderValue.toString();
-                            });
-                          }),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      height: 60,
-                      width: 160,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                              style: BorderStyle.solid,
-                              color: Color.fromARGB(255, 129, 128, 127))),
-                      child: RadioListTile(
-                          title: Text(
-                            "Female",
-                            style: GoogleFonts.nunito(
-                                fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                          value: "Female",
-                          groupValue: selectGenderValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectGenderValue = value.toString();
-                              gender = selectGenderValue.toString();
-                            });
-                          }),
-                    ),
-                  ],
+                const SizedBox(height: 10),
+                Container(
+                  height: 230,
+                  width: 327,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                          style: BorderStyle.solid,
+                          color: const Color.fromARGB(255, 129, 128, 127))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, left: 5),
+                        height: 55,
+                        width: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                style: BorderStyle.solid,
+                                color: const Color.fromARGB(255, 129, 128, 127))),
+                        child: RadioListTile(
+                          title: const Text('Male'),
+                          value: 'Male',
+                          groupValue: _selectedGender,
+                          onChanged: _handleRadioValueChange,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 5),
+                        height: 55,
+                        width: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                style: BorderStyle.solid,
+                                color: const Color.fromARGB(255, 129, 128, 127))),
+                        child: RadioListTile(
+                          title: const Text('Female'),
+                          value: 'Female',
+                          groupValue: _selectedGender,
+                          onChanged: _handleRadioValueChange,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 5),
+                        height: 55,
+                        width: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                style: BorderStyle.solid,
+                                color: const Color.fromARGB(255, 129, 128, 127))),
+                        child: RadioListTile(
+                          title: const Text('Other'),
+                          value: 'Other',
+                          groupValue: _selectedGender,
+                          onChanged: _handleRadioValueChange,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 285),
                   child: Text(
@@ -403,26 +426,25 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _controller3,
-                  //controller: countrycode,
                   onChanged: (value) {
                     phone = value;
                   },
                   decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromARGB(255, 129, 128, 127))),
                       labelText: "Enter your phone number",
                       labelStyle: GoogleFonts.nunito(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 156, 164, 171)),
-                      border: OutlineInputBorder()),
+                          color: const Color.fromARGB(255, 156, 164, 171)),
+                      border: const OutlineInputBorder()),
                   validator: (value) {
                     if (value!.isEmpty && value.length < 13) {
                       return "Enter correct phone number";
@@ -434,7 +456,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 230),
                   child: Text(
@@ -442,10 +464,10 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: email_controller,
                   decoration: InputDecoration(
@@ -453,9 +475,9 @@ class _CreateState extends State<Create> {
                     labelStyle: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 156, 164, 171)),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                        color: const Color.fromARGB(255, 156, 164, 171)),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 129, 128, 127))),
                   ),
@@ -463,7 +485,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 247),
                   child: Text(
@@ -471,18 +493,18 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   height: 55,
                   width: 330,
                   child: TextFormField(
                     decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                           borderSide: BorderSide(
                               style: BorderStyle.solid,
                               color: Color.fromARGB(255, 227, 231, 236))),
@@ -494,7 +516,7 @@ class _CreateState extends State<Create> {
                           style: GoogleFonts.nunito(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 156, 164, 171)),
+                              color: const Color.fromARGB(255, 156, 164, 171)),
                         ),
                         dropdownMenuEntries: departmentEntries,
                         onSelected: (departmentList? department) {
@@ -506,7 +528,7 @@ class _CreateState extends State<Create> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Padding(
@@ -516,24 +538,21 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _controller4,
                   validator: (passCurrentValue) {
-                    RegExp regex = RegExp(
-                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])');
                     var passNonNullValue = passCurrentValue ?? "";
                     if (passNonNullValue.isEmpty) {
                       return ("Password is required");
-                    } else if (passNonNullValue.length < 6) {
-                      return ("Password Must be more than 5 characters");
                     } else if (!regex.hasMatch(passNonNullValue)) {
                       return ("Password should contain"
                           "\n"
-                          "upper,lower,digit and Special character ");
+                          "upper,lower,digit ");
                     }
                     return null;
                   },
@@ -544,7 +563,7 @@ class _CreateState extends State<Create> {
                         confirmPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        color: Color.fromARGB(255, 155, 153, 153),
+                        color: const Color.fromARGB(255, 155, 153, 153),
                         size: 23,
                       ),
                       onPressed: () {
@@ -559,9 +578,9 @@ class _CreateState extends State<Create> {
                     labelStyle: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 156, 164, 171)),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                        color: const Color.fromARGB(255, 156, 164, 171)),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 129, 128, 127))),
                   ),
@@ -569,7 +588,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(right: 208),
                   child: Text(
@@ -577,10 +596,10 @@ class _CreateState extends State<Create> {
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 120, 130, 138)),
+                        color: const Color.fromARGB(255, 120, 130, 138)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   validator: (val) {
                     if (val!.isEmpty) return 'Empty';
@@ -595,7 +614,7 @@ class _CreateState extends State<Create> {
                         passwordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        color: Color.fromARGB(255, 155, 153, 153),
+                        color: const Color.fromARGB(255, 155, 153, 153),
                         size: 23,
                       ),
                       onPressed: () {
@@ -610,9 +629,9 @@ class _CreateState extends State<Create> {
                     labelStyle: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 156, 164, 171)),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                        color: const Color.fromARGB(255, 156, 164, 171)),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 129, 128, 127))),
                   ),
@@ -620,7 +639,7 @@ class _CreateState extends State<Create> {
                   style: GoogleFonts.nunito(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
               ],
             ),
           ),
@@ -631,11 +650,12 @@ class _CreateState extends State<Create> {
 }
 
 enum departmentList {
-  MALLB("department", "MA-LLB"),
+  BALLB("department", "BA-LLB"),
   MCA(
     "department",
     "MCA",
   ),
+  LLM("department", "LLM"),
   MBA(
     "department",
     "MBA",

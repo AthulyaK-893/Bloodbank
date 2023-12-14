@@ -1,5 +1,5 @@
 import 'package:blood_dontaion_app/details.dart';
-import 'package:blood_dontaion_app/googlesheets.dart';
+
 import 'package:blood_dontaion_app/otpverification.dart';
 import 'package:blood_dontaion_app/sheetscolumn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,7 +21,7 @@ class BloodGroup extends StatefulWidget {
 
 class _BloodGroupState extends State<BloodGroup> {
   String selectedValue = "";
-  List<bool> isSelected = [true, false];
+  List<bool> isSelected = [false, false];
   String bloodType = "";
 
   @override
@@ -29,8 +29,9 @@ class _BloodGroupState extends State<BloodGroup> {
     return Scaffold(
       bottomNavigationBar: GestureDetector(
         onTap: () {
-          //saveBloodGroup();
-          Get.to(() => const Create(), arguments: selectedValue + bloodType);
+          if (isSelected[0] || isSelected[1]) {
+            Get.to(() => const Create(), arguments: selectedValue + bloodType);
+          }
         },
         child: Container(
           height: 56,

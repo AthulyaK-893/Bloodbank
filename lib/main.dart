@@ -1,10 +1,14 @@
 import 'package:blood_dontaion_app/account.dart';
+import 'package:blood_dontaion_app/adminaccount.dart';
 import 'package:blood_dontaion_app/bloodgroup.dart';
 import 'package:blood_dontaion_app/create.dart';
 import 'package:blood_dontaion_app/details.dart';
-import 'package:blood_dontaion_app/googlesheets.dart';
+import 'package:blood_dontaion_app/documentlistview.dart';
+
 import 'package:blood_dontaion_app/otpverification.dart';
-import 'package:blood_dontaion_app/loginpage.dart';
+import 'package:blood_dontaion_app/view/googlesheet/googlesheets.dart';
+import 'package:blood_dontaion_app/view/welcome.screen.dart.dart';
+//import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +23,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  /*  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+     androidProvider: AndroidProvider.debug,);*/
   await SheetsBloodDonation.init();
   runApp(MyApp());
 }
@@ -57,8 +65,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute:
-          isLogin ? "Login" : "details", //phone==null?"create":"details",
+      initialRoute: isLogin ? "details" : "Login",
       routes: {
         "Login": (context) => LoginPage(),
         "create": (context) => Create(),
@@ -66,8 +73,9 @@ class _MyAppState extends State<MyApp> {
         "bloodGroup": (context) => BloodGroup(),
         "details": (context) => Details(),
         "account": (context) => Account(),
+        "Adminpage": (context) => DocumentListView(),
+        // "AdminAccount":(context) => AdminAccount()
       },
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

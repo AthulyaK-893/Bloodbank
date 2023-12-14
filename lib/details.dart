@@ -1,5 +1,3 @@
-
-
 import 'package:blood_dontaion_app/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +24,6 @@ class _DetailsState extends State<Details> {
   String filterBloodGroup = '';
 
   String selectedBloodGroup = "";
-  
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +121,221 @@ class _DetailsState extends State<Details> {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        height: 230,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 235, top: 5),
+              child: Text("Helpline",
+                  style: GoogleFonts.nunito(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 37, 23, 23))),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 82,
+              width: 328,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 253, 242, 245),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, top: 7),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Secretary",
+                          style: GoogleFonts.nunito(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 214, 0, 50)),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text("Dhruvan",
+                            style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 156, 164, 171))),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text("+91 9746952439",
+                            style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 156, 164, 171)))
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 250, 173, 191),
+                              child: IconButton(
+                                  onPressed: () async {
+                                    final Uri url = Uri(
+                                        scheme: "sms", path: "+91 9746952439");
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      print("cannot launch this url");
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.message,
+                                  )),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                                padding: const EdgeInsets.only(top: 5),
+                                width: 48,
+                                height: 44,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 250, 173, 191),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15))),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    final Uri url = Uri(
+                                        scheme: "tel",
+                                        path: ['+91 9746952439'].toString());
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      print("cannot launch this url");
+                                    }
+                                  },
+                                  icon: const Icon(Icons.phone_sharp),
+                                )),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 82,
+              width: 328,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 253, 242, 245),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, top: 7),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "President",
+                          style: GoogleFonts.nunito(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 214, 0, 50)),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text("Gokul P Raj",
+                            style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 156, 164, 171))),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text("+91 8848675972",
+                            style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 156, 164, 171)))
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 250, 173, 191),
+                              child: IconButton(
+                                  onPressed: () async {
+                                    final Uri url = Uri(
+                                        scheme: "sms", path: "+91 8848675972");
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      print("cannot launch this url");
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.message,
+                                  )),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                                padding: const EdgeInsets.only(top: 5),
+                                width: 48,
+                                height: 44,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 250, 173, 191),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15))),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    final Uri url = Uri(
+                                        scheme: "tel",
+                                        path: ['+91 8848675972'].toString());
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      print("cannot launch this url");
+                                    }
+                                  },
+                                  icon: const Icon(Icons.phone_sharp),
+                                )),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -201,183 +413,63 @@ class _DetailsState extends State<Details> {
                         }
 
                         var data = snapshot.data!.docs[index];
-                        return Container(
-                          margin: EdgeInsets.only(top: 15),
-                          height: 110,
-                          width: 328,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color.fromARGB(255, 253, 242, 245)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30, right: 20, top: 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data["Name"],
-                                      style: GoogleFonts.nunito(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(
-                                              255, 156, 164, 171)),
-                                    ),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(data["Phone"],
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Container(
+                            margin: EdgeInsets.only(top: 15),
+                            height: 55,
+                            width: 328,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromARGB(255, 253, 242, 245)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 16),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        data["Name"],
                                         style: GoogleFonts.nunito(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             color: Color.fromARGB(
-                                                255, 156, 164, 171))),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(data["Department"],
-                                        style: GoogleFonts.nunito(
+                                                255, 156, 164, 171)),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 58),
+                                        child: Text(
+                                          data["Blood group"],
+                                          style: GoogleFonts.nunito(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromARGB(
-                                                255, 156, 164, 171)))
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 58),
-                                      child: Text(
-                                        data["Blood group"],
-                                        style: GoogleFonts.nunito(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color:
-                                              Color.fromARGB(255, 214, 0, 50),
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                Color.fromARGB(255, 214, 0, 50),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: Color.fromARGB(
-                                              255, 250, 222, 229),
-                                          child: IconButton(
-                                              onPressed: () async {
-                                                final Uri url = Uri(
-                                                    scheme: "sms",
-                                                    path: docs[index]["Phone"]);
-                                                if (await canLaunchUrl(url)) {
-                                                  await launchUrl(url);
-                                                } else {
-                                                  print(
-                                                      "cannot launch this url");
-                                                }
-                                              },
-                                              icon: Icon(
-                                                Icons.message,
-                                                color: Color.fromARGB(
-                                                    255, 214, 0, 50),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
-                                        CircleAvatar(
-                                          backgroundColor: Color.fromARGB(
-                                              255, 250, 222, 229),
-                                          child: IconButton(
-                                              onPressed: () async {
-                                                final Uri url = Uri(
-                                                    scheme: "tel",
-                                                    path: docs[index]["Phone"]);
-                                                if (await canLaunchUrl(url)) {
-                                                  await launchUrl(url);
-                                                } else {
-                                                  print(
-                                                      "cannot launch this url");
-                                                }
-                                              },
-                                              icon: Icon(
-                                                Icons.call,
-                                                color: Color.fromARGB(
-                                                    255, 214, 0, 50),
-                                              )),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ],
+                                      SizedBox(
+                                        height: 6,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
                       });
                 })
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text(
-                "Account",
-                style: GoogleFonts.nunito(
-                    fontSize: 22, fontWeight: FontWeight.w700),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Icon(
-              Icons.account_circle_sharp,
-              size: 60,
-              color: Color.fromARGB(255, 214, 0, 50),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              " Athulya.K",
-              style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 17,
-                  color: Color.fromARGB(255, 19, 82, 199)),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "athulyak123@gmail.com",
-              style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 17,
-                  color: Color.fromARGB(255, 19, 82, 199)),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text("+917592905693",
-                style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 17,
-                    color: Color.fromARGB(255, 19, 82, 199)),
-                textAlign: TextAlign.center),
-            SizedBox(
-              height: 10,
-            ),
-            Text("Blood group : B+",
-                style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 17,
-                    color: Color.fromARGB(255, 19, 82, 199)),
-                textAlign: TextAlign.center)
           ],
         ),
       ),

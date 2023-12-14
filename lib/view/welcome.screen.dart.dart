@@ -26,10 +26,12 @@ class _LoginPageState extends State<LoginPage> {
           child: Stack(
             children: [
               Positioned(
+                  left: 10,
+                  right: 10,
                   child: Image.asset(
-                "assets/images/Untitled-123 1.png",
-              )),
-              
+                    "assets/images/iPhone 14 - 18 (1).png",
+                    fit: BoxFit.contain,alignment: Alignment.center,
+                  )),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context)
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                   }));
                 },
                 child: Container(
-                    margin: EdgeInsets.only(top: 450, left: 18),
+                    margin: EdgeInsets.only(top: 527, left: 18),
                     height: 56,
                     width: 327,
                     decoration: BoxDecoration(
@@ -64,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                   }));
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 520, left: 18),
+                  margin: EdgeInsets.only(top: 595, left: 18),
                   height: 56,
                   width: 327,
                   decoration: BoxDecoration(
@@ -86,17 +88,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Positioned(
-                  top: 600,
+                  top: 656,
                   left: 60,
-                  child:SvgPicture.asset("assets/svg/Frame 1000006998.svg")),
+                  child: SvgPicture.asset("assets/svg/Frame 1000006998.svg",)),
               Positioned(
-                  top: 630,
+                  top: 685,
                   left: 63,
                   child: Text(
                       "STUDENTS FEDERATION OF INDIA PALAYAD CAMPUS UNIT COMMITTEE",
                       style: GoogleFonts.nunito(
                           color: Colors.white, fontSize: 6))),
-                        
             ],
           ),
         ));

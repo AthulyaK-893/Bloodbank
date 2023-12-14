@@ -1,6 +1,7 @@
 import 'package:blood_dontaion_app/create.dart';
 import 'package:blood_dontaion_app/details.dart';
-import 'package:blood_dontaion_app/loginpage.dart';
+import 'package:blood_dontaion_app/documentlistview.dart';
+import 'package:blood_dontaion_app/view/welcome.screen.dart.dart';
 import 'package:blood_dontaion_app/model/Usermodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +26,10 @@ class _SigninPageState extends State<SigninPage> {
     try {
       var halo = await auth.signInWithEmailAndPassword(
           email: email, password: password);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final userids = FirebaseAuth.instance.currentUser?.uid.toString();
+      await prefs.setString('uid', userids!);
+      print(prefs.getString('uid'));
       print(halo);
       setState(() {
         isLogin = true;
@@ -63,7 +68,9 @@ class _SigninPageState extends State<SigninPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 100,),
+                  padding: const EdgeInsets.only(
+                    top: 100,
+                  ),
                   child: Text(
                     "Welcome Back",
                     style: GoogleFonts.nunito(
@@ -72,94 +79,44 @@ class _SigninPageState extends State<SigninPage> {
                         color: Color.fromARGB(253, 214, 0, 50)),
                   ),
                 ),
-                SizedBox(height: 25,),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: email_controller,
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value!)) {
-                            return "Enter correct email address";
-                          } else {
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                          labelText: "Enter your email address",
-                          labelStyle: GoogleFonts.nunito(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(253, 214, 0, 50)),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromARGB(253, 214, 0, 50))),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ],
-                  ),
+                SizedBox(
+                  height: 25,
                 ),
-               
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: password_controller,
-                        validator: (passCurrentValue) {
-                          RegExp regex = RegExp(
-                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                          var passNonNullValue = passCurrentValue ?? "";
-                          if (passNonNullValue.isEmpty) {
-                            return ("Password is required");
-                          } else if (passNonNullValue.length < 6) {
-                            return ("Password Must be more than 5 characters");
-                          } else if (!regex.hasMatch(passNonNullValue)) {
-                            return ("Password should contain"
-                                "\n"
-                                "upper,lower,digit and Special character ");
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: "Enter your password",
-                          labelStyle: GoogleFonts.nunito(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(253, 214, 0, 50)),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromARGB(253, 214, 0, 50))),
-                        ),
-                        keyboardType: TextInputType.visiblePassword,
-                      ),
-                    ],
-                  ),
-                ),
+                Email_textfield(),
+                Password_textfield(),
                 GestureDetector(
                   onTap: () async {
                     if (formKey.currentState!.validate()) {
                       await loginUser(
                           email: email_controller.text,
                           password: password_controller.text);
-          
-                      if (isLogin)
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                          return Details();
-                        }));
+
+                      if (isLogin) {
+                        if (email_controller.text == "admin@sfi.com") {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => DocumentListView()),
+                          );
+                        } else {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => Details()),
+                          );
+                        }
+                      }
                     } else {
-                      print("can't login");
+                      /* ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Your password is incorrect"),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );*/
+                      print("Can't login");
                     }
                   },
                   child: Container(
-                      margin: EdgeInsets.only(top: 70,),
+                      margin: EdgeInsets.only(
+                        top: 70,
+                      ),
                       height: 65,
                       width: 330,
                       decoration: BoxDecoration(
@@ -181,6 +138,77 @@ class _SigninPageState extends State<SigninPage> {
             ),
           );
         }),
+      ),
+    );
+  }
+
+  Padding Password_textfield() {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: password_controller,
+            validator: (passCurrentValue) {
+              RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])');
+              var passNonNullValue = passCurrentValue ?? "";
+              if (passNonNullValue.isEmpty) {
+                return ("Password is required");
+              } else if (!regex.hasMatch(passNonNullValue)) {
+                return ("Password should contain"
+                    "\n"
+                    "upper,lower,digit ");
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              labelText: "Enter your password",
+              labelStyle: GoogleFonts.nunito(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(253, 214, 0, 50)),
+              border: OutlineInputBorder(),
+              enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(253, 214, 0, 50))),
+            ),
+            keyboardType: TextInputType.visiblePassword,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding Email_textfield() {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: email_controller,
+            validator: (value) {
+              if (value!.isEmpty ||
+                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value!)) {
+                return "Enter correct email address";
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              labelText: "Enter your email address",
+              labelStyle: GoogleFonts.nunito(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(253, 214, 0, 50)),
+              border: OutlineInputBorder(),
+              enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(253, 214, 0, 50))),
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+        ],
       ),
     );
   }
